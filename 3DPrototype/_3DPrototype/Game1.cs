@@ -18,9 +18,33 @@ namespace Prototype3dXNA
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Matrix view, projection;
-        Model model;
-        Matrix[] bonetransformations;
+
+        /// <summary>
+        /// Stores the model that we are going to draw.
+        /// </summary>
+        private Model model;
+
+        /// <summary>
+        /// Stores the world matrix for the model, which transforms the 
+        /// model to be in the correct position, scale, and rotation
+        /// in the game world.
+        /// </summary>
+        private Matrix world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
+
+        /// <summary>
+        /// Stores the view matrix for the model, which gets the model
+        /// in the right place, relative to the camera.
+        /// </summary>
+        private Matrix view = Matrix.CreateLookAt(new Vector3(0, 0, 10), new Vector3(0, 0, 0), Vector3.UnitY);
+
+        /// <summary>
+        /// Stores the projection matrix, which gets the model projected
+        /// onto the screen in the correct way.  Essentially, this defines the
+        /// properties of the camera you are using.
+        /// </summary>
+        private Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 480f, 0.1f, 100f);
+
+        private Vector3 position;
 
         public Game1()
         {
@@ -49,9 +73,10 @@ namespace Prototype3dXNA
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            model = Content.Load<Model>("Zellen_Tischlampe");
+            model = Content.Load<Model>("cube");
             view = Matrix.CreateLookAt(new Vector3(10, 10, 10), Vector3.Zero, Vector3.Up);
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), graphics.GraphicsDevice.Viewport.AspectRatio, .1f, 1000f);
+            position = new Vector3(0, 0, 0);
             // TODO: use this.Content to load your game content here
         }
 
@@ -77,7 +102,8 @@ namespace Prototype3dXNA
                 this.Exit();
 
             // TODO: Add your update logic here
-
+            position += new Vector3(0, 0.01f, 0);
+            world = Matrix.CreateTranslation(position);
             base.Update(gameTime);
         }
 
@@ -88,24 +114,34 @@ namespace Prototype3dXNA
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            bonetransformations = new Matrix[model.Bones.Count];
-            model.CopyAbsoluteBoneTransformsTo(bonetransformations);
 
-            // TODO: Add your drawing code here
+            DrawModel(model, world, view, projection);
+
+            base.Draw(gameTime);
+        }
+
+        /// <summary>
+        /// Does the work of drawing a model, given specific world, view, and projection
+        /// matrices.
+        /// </summary>
+        /// <param name="model">The model to draw</param>
+        /// <param name="world">The transformation matrix to get the model in the right place in the world.</param>
+        /// <param name="view">The transformation matrix to get the model in the right place, relative to the camera.</param>
+        /// <param name="projection">The transformation matrix to project the model's points onto the screen correctly.</param>
+        private void DrawModel(Model model, Matrix world, Matrix view, Matrix projection)
+        {
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.World = bonetransformations[mesh.ParentBone.Index];
+                    effect.World = world;
                     effect.View = view;
                     effect.Projection = projection;
-                    effect.EnableDefaultLighting();
                 }
+
                 mesh.Draw();
             }
-
-
-            base.Draw(gameTime);
         }
+
     }
 }

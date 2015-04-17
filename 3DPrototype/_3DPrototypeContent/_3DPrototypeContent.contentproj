@@ -42,8 +42,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Zellen_Tischlampe.fbx">
-      <Name>Zellen_Tischlampe</Name>
+    <Compile Include="cube.fbx">
+      <Name>cube</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
