@@ -84,11 +84,9 @@ namespace Prototype3dXNA
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-<<<<<<< HEAD
+
             model = Content.Load<Model>("cube");
             //model = Content.Load<Model>("Pfeil1");
-=======
->>>>>>> 81f1d0d7366696cbe5202cf0263ba944459a01c4
             view = Matrix.CreateLookAt(new Vector3(10, 10, 10), Vector3.Zero, Vector3.Up);
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), graphics.GraphicsDevice.Viewport.AspectRatio, .1f, 1000f);
             position = new Vector3(0, 0, 0);
@@ -121,7 +119,6 @@ namespace Prototype3dXNA
                 this.Exit();
 
             // TODO: Add your update logic here
-<<<<<<< HEAD
             position += new Vector3(0, 0.01f, 0);
             world = Matrix.CreateTranslation(position);
 
@@ -138,10 +135,8 @@ namespace Prototype3dXNA
 
             //END KEYBOARD INPUTS ****************************
 
-=======
             //position += new Vector3(0, 0.01f, 0);
            // world = Matrix.CreateTranslation(position);
->>>>>>> 81f1d0d7366696cbe5202cf0263ba944459a01c4
             base.Update(gameTime);
         }
 
@@ -153,14 +148,11 @@ namespace Prototype3dXNA
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-<<<<<<< HEAD
             if(showValue)
                 DrawModel(model, world, view, projection);
 
-=======
             DrawModel(model, world, view, projection);
             upperWorld.Draw(world, view, projection);
->>>>>>> 81f1d0d7366696cbe5202cf0263ba944459a01c4
             base.Draw(gameTime);
         }
 
@@ -174,13 +166,8 @@ namespace Prototype3dXNA
         /// <param name="projection">The transformation matrix to project the model's points onto the screen correctly.</param>
         private void DrawModel(Model model, Matrix world, Matrix view, Matrix projection)
         {
-<<<<<<< HEAD
 
-
-            foreach (ModelMesh mesh in model.Meshes)
-=======
             /*foreach (ModelMesh mesh in model.Meshes)
->>>>>>> 81f1d0d7366696cbe5202cf0263ba944459a01c4
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
