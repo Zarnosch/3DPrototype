@@ -5,7 +5,17 @@ using System.Text;
 
 namespace _3DPrototype
 {
+
     class Environment
-    {
+    {   
+        Environment()
+        {
+
+        }
+
+
+
+
+        void Draw();
     }
 }

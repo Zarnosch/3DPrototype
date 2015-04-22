@@ -113,7 +113,7 @@ namespace Prototype3dXNA
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.AntiqueWhite);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
             DrawModel(model, world, view, projection);
 
