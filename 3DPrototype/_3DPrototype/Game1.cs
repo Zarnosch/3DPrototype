@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using _3DPrototype;
 
 namespace Prototype3dXNA
 {
@@ -18,6 +19,7 @@ namespace Prototype3dXNA
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        GameEnvironment upperWorld;
 
         /// <summary>
         /// Stores the model that we are going to draw.
@@ -61,6 +63,11 @@ namespace Prototype3dXNA
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            upperWorld = new GameEnvironment (Content, "upperWorld", new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+            Wall testWall = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "cube", Content);
+            Wall testWall2 = new Wall(new Vector3(0, -4, 0), new Vector3(0, 0, 0), "cube", Content);
+            upperWorld.addWall(testWall);
+            upperWorld.addWall(testWall2);
 
             base.Initialize();
         }
@@ -73,11 +80,12 @@ namespace Prototype3dXNA
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            model = Content.Load<Model>("cube");
             view = Matrix.CreateLookAt(new Vector3(10, 10, 10), Vector3.Zero, Vector3.Up);
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), graphics.GraphicsDevice.Viewport.AspectRatio, .1f, 1000f);
             position = new Vector3(0, 0, 0);
             // TODO: use this.Content to load your game content here
+            upperWorld.LoadContent();
+            
         }
 
         /// <summary>
@@ -102,8 +110,8 @@ namespace Prototype3dXNA
                 this.Exit();
 
             // TODO: Add your update logic here
-            position += new Vector3(0, 0.01f, 0);
-            world = Matrix.CreateTranslation(position);
+            //position += new Vector3(0, 0.01f, 0);
+           // world = Matrix.CreateTranslation(position);
             base.Update(gameTime);
         }
 
@@ -116,7 +124,7 @@ namespace Prototype3dXNA
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             DrawModel(model, world, view, projection);
-
+            upperWorld.Draw(world, view, projection);
             base.Draw(gameTime);
         }
 
@@ -130,7 +138,7 @@ namespace Prototype3dXNA
         /// <param name="projection">The transformation matrix to project the model's points onto the screen correctly.</param>
         private void DrawModel(Model model, Matrix world, Matrix view, Matrix projection)
         {
-            foreach (ModelMesh mesh in model.Meshes)
+            /*foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
@@ -140,8 +148,8 @@ namespace Prototype3dXNA
                 }
 
                 mesh.Draw();
-            }
+            }*/
         }
-
+            
     }
 }
