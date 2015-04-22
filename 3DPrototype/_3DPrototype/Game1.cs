@@ -19,6 +19,10 @@ namespace Prototype3dXNA
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        // TEST KEYBOARDINPUT *******************************
+        bool showValue = false;
+        private KeyboardState oldState;
+
         /// <summary>
         /// Stores the model that we are going to draw.
         /// </summary>
@@ -74,9 +78,12 @@ namespace Prototype3dXNA
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             model = Content.Load<Model>("cube");
+            //model = Content.Load<Model>("Pfeil1");
             view = Matrix.CreateLookAt(new Vector3(10, 10, 10), Vector3.Zero, Vector3.Up);
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), graphics.GraphicsDevice.Viewport.AspectRatio, .1f, 1000f);
             position = new Vector3(0, 0, 0);
+
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -104,6 +111,20 @@ namespace Prototype3dXNA
             // TODO: Add your update logic here
             position += new Vector3(0, 0.01f, 0);
             world = Matrix.CreateTranslation(position);
+
+            // KEYBOARD INPUTS ********************************
+            KeyboardState newState = Keyboard.GetState(); 
+
+
+            if (oldState.IsKeyUp(Keys.Left) && newState.IsKeyDown(Keys.Left))
+            {
+                showValue = true;
+            }
+
+            oldState = newState; 
+
+            //END KEYBOARD INPUTS ****************************
+
             base.Update(gameTime);
         }
 
@@ -115,7 +136,8 @@ namespace Prototype3dXNA
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            DrawModel(model, world, view, projection);
+            if(showValue)
+                DrawModel(model, world, view, projection);
 
             base.Draw(gameTime);
         }
@@ -130,10 +152,13 @@ namespace Prototype3dXNA
         /// <param name="projection">The transformation matrix to project the model's points onto the screen correctly.</param>
         private void DrawModel(Model model, Matrix world, Matrix view, Matrix projection)
         {
+
+
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
+                    effect.EnableDefaultLighting();
                     effect.World = world;
                     effect.View = view;
                     effect.Projection = projection;
