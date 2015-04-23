@@ -22,8 +22,6 @@ namespace Prototype3dXNA
         GameEnvironment upperWorld;
 
         // TEST KEYBOARDINPUT *******************************
-        bool showValue = false;
-        private KeyboardState oldState;
 
         /// <summary>
         /// Stores the model that we are going to draw.
@@ -49,8 +47,6 @@ namespace Prototype3dXNA
         /// properties of the camera you are using.
         /// </summary>
         private Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 480f, 0.1f, 100f);
-
-        private Vector3 position;
 
         public Game1()
         {
@@ -89,7 +85,6 @@ namespace Prototype3dXNA
             //model = Content.Load<Model>("Pfeil1");
             view = Matrix.CreateLookAt(new Vector3(10, 10, 10), Vector3.Zero, Vector3.Up);
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), graphics.GraphicsDevice.Viewport.AspectRatio, .1f, 1000f);
-            position = new Vector3(0, 0, 0);
 
 
             // TODO: use this.Content to load your game content here
@@ -119,19 +114,11 @@ namespace Prototype3dXNA
                 this.Exit();
 
             // TODO: Add your update logic here
-            position += new Vector3(0, 0.01f, 0);
-            world = Matrix.CreateTranslation(position);
+
 
             // KEYBOARD INPUTS ********************************
-            KeyboardState newState = Keyboard.GetState(); 
 
 
-            if (oldState.IsKeyUp(Keys.Left) && newState.IsKeyDown(Keys.Left))
-            {
-                showValue = true;
-            }
-
-            oldState = newState; 
 
             //END KEYBOARD INPUTS ****************************
 
@@ -147,11 +134,7 @@ namespace Prototype3dXNA
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            if(showValue)
-                DrawModel(model, world, view, projection);
-
-            DrawModel(model, world, view, projection);
+               
             upperWorld.Draw(world, view, projection);
             base.Draw(gameTime);
         }
@@ -164,22 +147,6 @@ namespace Prototype3dXNA
         /// <param name="world">The transformation matrix to get the model in the right place in the world.</param>
         /// <param name="view">The transformation matrix to get the model in the right place, relative to the camera.</param>
         /// <param name="projection">The transformation matrix to project the model's points onto the screen correctly.</param>
-        private void DrawModel(Model model, Matrix world, Matrix view, Matrix projection)
-        {
-
-            /*foreach (ModelMesh mesh in model.Meshes)
-            {
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                    effect.World = world;
-                    effect.View = view;
-                    effect.Projection = projection;
-                }
-
-                mesh.Draw();
-            }*/
-        }
             
     }
 }
