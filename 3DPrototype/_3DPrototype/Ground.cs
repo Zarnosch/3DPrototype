@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace _3DPrototype
 {
-    class Player
+    class Ground
     {
         Vector3 position;
         Vector3 orientation;
@@ -20,7 +20,7 @@ namespace _3DPrototype
         String modelName;
         ContentManager content;
 
-        public Player(Vector3 _position, Vector3 _orientation, String _modelName, ContentManager _content)
+        public Ground(Vector3 _position, Vector3 _orientation, String _modelName, ContentManager _content)
         {
             position = _position;
             orientation = _orientation;
@@ -37,7 +37,7 @@ namespace _3DPrototype
                     effect.EnableDefaultLighting();
                     effect.World = Matrix.CreateTranslation(position);
                     effect.View = view;
-                    effect.Projection = projection;
+                    effect.Projection = projection;              
                 }
                 mesh.Draw();
             }
@@ -55,14 +55,6 @@ namespace _3DPrototype
         public Vector3 getOrientation()
         {
             return this.orientation; ;
-        }
-        public void setPosition(Vector3 _position)
-        {
-            this.position = _position;
-        }
-        public void setOrientation(Vector3 _orientation)
-        {
-            this.orientation = _orientation;
         }
     }
 }

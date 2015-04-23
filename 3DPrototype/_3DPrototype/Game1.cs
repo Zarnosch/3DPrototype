@@ -69,6 +69,7 @@ namespace Prototype3dXNA
             //Wall testWall = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "cube", Content);
             //Wall testWall2 = new Wall(new Vector3(2, 0, 0), new Vector3(0, 0, 0), "Wuerfel1Yellow", Content);
 
+            
             Wall testWall = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "FloorPlate", Content);
             Wall testWall2 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallLeft", Content);
             Wall testWall3 = new Wall(new Vector3(2, 0, 0), new Vector3(0, 0, 0), "FloorPlate", Content);
@@ -78,6 +79,7 @@ namespace Prototype3dXNA
             Wall testWall6 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "ApeMonster", Content);
             Wall testWall7 = new Wall(new Vector3(0, 0, 2), new Vector3(0, 0, 0), "FloorPlate", Content);
             Wall testWall8 = new Wall(new Vector3(0, 0, 4), new Vector3(0, 0, 0), "FloorPlate", Content);
+             
 
             upperWorld.addWall(testWall);
             upperWorld.addWall(testWall2);
@@ -87,7 +89,10 @@ namespace Prototype3dXNA
             upperWorld.addWall(testWall6);
             upperWorld.addWall(testWall7);
             upperWorld.addWall(testWall8);
-
+            
+            Ground testGround = new Ground(new Vector3(0, 0, 4), new Vector3(0, 0, 0), "FloorPlate", Content);
+            //upperWorld.addGround(3, 4, "FloorPlate");
+            //upperWorld.addGround(testGround);
             base.Initialize();
         }
 

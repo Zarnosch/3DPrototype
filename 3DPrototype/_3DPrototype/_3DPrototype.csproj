@@ -110,6 +110,7 @@
     <Compile Include="Collectable.cs" />
     <Compile Include="Creature.cs" />
     <Compile Include="GameEnvironment.cs" />
+    <Compile Include="Ground.cs" />
     <Compile Include="Light.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -40,7 +40,6 @@ namespace _3DPrototype
                     effect.World = Matrix.CreateTranslation(position);
                     effect.View = view;
                     effect.Projection = projection;
-                    Console.Out.WriteLine("Loaded Wall" + position);
                 }
                 mesh.Draw();
             }
@@ -48,8 +47,17 @@ namespace _3DPrototype
 
         public void LoadContent()
         {
-            Console.Out.WriteLine("Loaded Wall");
             model = content.Load<Model>(modelName);
         }
+
+        public Vector3 getPosition()
+        {
+            return this.position;
+        }
+        public Vector3 getOrientation()
+        {
+            return this.orientation; ;
+        }
+        
     }
 }
