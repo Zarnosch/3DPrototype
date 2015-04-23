@@ -21,14 +21,12 @@ namespace Prototype3dXNA
         SpriteBatch spriteBatch;
         GameEnvironment upperWorld;
 
-        // TEST KEYBOARDINPUT *******************************
-        bool showValue = false;
-        private KeyboardState oldState;
+       
 
         /// <summary>
         /// Stores the model that we are going to draw.
         /// </summary>
-        private Model model;
+        //private Model model;
 
         /// <summary>
         /// Stores the world matrix for the model, which transforms the 
@@ -50,7 +48,7 @@ namespace Prototype3dXNA
         /// </summary>
         private Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 480f, 0.1f, 100f);
 
-        private Vector3 position;
+        //private Vector3 position;
 
         public Game1()
         {
@@ -68,10 +66,27 @@ namespace Prototype3dXNA
         {
             // TODO: Add your initialization logic here
             upperWorld = new GameEnvironment (Content, "upperWorld", new Vector3(0, 0, 0), new Vector3(0, 0, 0));
-            Wall testWall = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "cube", Content);
-            Wall testWall2 = new Wall(new Vector3(0, -4, 0), new Vector3(0, 0, 0), "cube", Content);
+            //Wall testWall = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "cube", Content);
+            //Wall testWall2 = new Wall(new Vector3(2, 0, 0), new Vector3(0, 0, 0), "Wuerfel1Yellow", Content);
+
+            Wall testWall = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "FloorPlate", Content);
+            Wall testWall2 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallLeft", Content);
+            Wall testWall3 = new Wall(new Vector3(2, 0, 0), new Vector3(0, 0, 0), "FloorPlate", Content);
+            Wall testWall4 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallBack", Content);
+            //Wall testWall5 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WandRechts1", Content);
+            Wall testWall5 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallRight", Content);
+            Wall testWall6 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "ApeMonster", Content);
+            Wall testWall7 = new Wall(new Vector3(0, 0, 2), new Vector3(0, 0, 0), "FloorPlate", Content);
+            Wall testWall8 = new Wall(new Vector3(0, 0, 4), new Vector3(0, 0, 0), "FloorPlate", Content);
+
             upperWorld.addWall(testWall);
             upperWorld.addWall(testWall2);
+            upperWorld.addWall(testWall3);
+            upperWorld.addWall(testWall4);
+            upperWorld.addWall(testWall5);
+            upperWorld.addWall(testWall6);
+            upperWorld.addWall(testWall7);
+            upperWorld.addWall(testWall8);
 
             base.Initialize();
         }
@@ -85,12 +100,16 @@ namespace Prototype3dXNA
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            model = Content.Load<Model>("cube");
+            //model = Content.Load<Model>("cube");
             //model = Content.Load<Model>("Pfeil1");
-            view = Matrix.CreateLookAt(new Vector3(10, 10, 10), Vector3.Zero, Vector3.Up);
-            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), graphics.GraphicsDevice.Viewport.AspectRatio, .1f, 1000f);
-            position = new Vector3(0, 0, 0);
 
+
+            //view = Matrix.CreateLookAt(new Vector3(10, 10, 10), Vector3.Zero, Vector3.Up);
+            view = Matrix.CreateLookAt(new Vector3(8, 25, 4), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
+
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), graphics.GraphicsDevice.Viewport.AspectRatio, .1f, 1000f);
+            //position = new Vector3(0, 0, 0);
+            
 
             // TODO: use this.Content to load your game content here
             upperWorld.LoadContent();
@@ -119,19 +138,13 @@ namespace Prototype3dXNA
                 this.Exit();
 
             // TODO: Add your update logic here
+            /*
             position += new Vector3(0, 0.01f, 0);
-            world = Matrix.CreateTranslation(position);
-
+            
+            */
+            //world = Matrix.CreateTranslation(position);
             // KEYBOARD INPUTS ********************************
-            KeyboardState newState = Keyboard.GetState(); 
-
-
-            if (oldState.IsKeyUp(Keys.Left) && newState.IsKeyDown(Keys.Left))
-            {
-                showValue = true;
-            }
-
-            oldState = newState; 
+            
 
             //END KEYBOARD INPUTS ****************************
 
@@ -148,10 +161,7 @@ namespace Prototype3dXNA
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            if(showValue)
-                DrawModel(model, world, view, projection);
-
-            DrawModel(model, world, view, projection);
+            
             upperWorld.Draw(world, view, projection);
             base.Draw(gameTime);
         }
@@ -164,22 +174,7 @@ namespace Prototype3dXNA
         /// <param name="world">The transformation matrix to get the model in the right place in the world.</param>
         /// <param name="view">The transformation matrix to get the model in the right place, relative to the camera.</param>
         /// <param name="projection">The transformation matrix to project the model's points onto the screen correctly.</param>
-        private void DrawModel(Model model, Matrix world, Matrix view, Matrix projection)
-        {
-
-            /*foreach (ModelMesh mesh in model.Meshes)
-            {
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                    effect.World = world;
-                    effect.View = view;
-                    effect.Projection = projection;
-                }
-
-                mesh.Draw();
-            }*/
-        }
+        
             
     }
 }

@@ -1,0 +1,18 @@
+
+View:
+	Ich hab unter LoadContent "view" angepasst, damit man etwas mehr von oben draufsieht. Ich wuerde auch gern noch naeher ran, aber kp wie das geht. ->Deins
+	
+
+Zu Blender:
+	Man MUSS ein paar Sachen beachten, sonst macht Blender grossen Mist beim exportieren. Man kann erst normal modellieren (wobei ich gelesen hab, dass man
+	nicht rotieren soll, bzw. nur im Editmode), es ist dann aber wichtig, den origin auf 0,0,0 zu legen. Sodass bei location 0,0,0 drinsteht. Wo das Model dann
+	rumfliegt, ist egal. Zudem muss man Apply anwenden im Objectmode (Strg-A). Am besten auf alles. Dann das Modell auswaehlen und auf Export
+	
+	Export via FBX: 
+					Select anwaehlen.
+					forward auf -z stehen lassen
+					up auf y einstellen.
+					
+					Apply tranformation auswaehlen darunter
+					
+					Sonst nichts veraendern. (Blender Version 2.74)

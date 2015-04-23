@@ -36,6 +36,7 @@ namespace _3DPrototype
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
+                    effect.EnableDefaultLighting();
                     effect.World = Matrix.CreateTranslation(position);
                     effect.View = view;
                     effect.Projection = projection;
