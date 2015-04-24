@@ -12,6 +12,7 @@ using _3DPrototype;
 
 namespace Prototype3dXNA
 {
+
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -19,11 +20,24 @@ namespace Prototype3dXNA
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        private int gamestate = 1;
+        private KeyboardState oldState1;
+        private MouseState oldState2;
+        private int xPos;
+        private int yPos;
+        private SpriteFont font1;
+
+        private Texture2D background;
+        private Texture2D white;
+        private int whiteDepth = 1;
+        private Texture2D endScreen;
+
         GameEnvironment upperWorld;
         Player player;
         KeyboardState oldState;
         int points;
-       
+
 
         /// <summary>
         /// Stores the model that we are going to draw.
@@ -72,7 +86,7 @@ namespace Prototype3dXNA
             //Keyboard
             oldState = Keyboard.GetState();
             //Environment
-            upperWorld = new GameEnvironment (Content, "upperWorld", new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+            upperWorld = new GameEnvironment(Content, "upperWorld", new Vector3(0, 0, 0), new Vector3(0, 0, 0));
             //Grounds
             Ground testGround01 = new Ground(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "FloorPlate", Content);
             Ground testGround02 = new Ground(new Vector3(2, 0, 0), new Vector3(0, 0, 0), "FloorPlate", Content);
@@ -88,12 +102,12 @@ namespace Prototype3dXNA
             Ground testGround12 = new Ground(new Vector3(2, 0, -2), new Vector3(0, 0, 0), "FloorPlate", Content);
             Ground testGround13 = new Ground(new Vector3(-2, 0, -2), new Vector3(0, 0, 0), "FloorPlate", Content);
             //Walls           
-            Wall testWall01 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallLeft", Content);            
+            Wall testWall01 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallLeft", Content);
             Wall testWall02 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallBack", Content);
             Wall testWall03 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallRight", Content);
             //Wall testWall04 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallFront", Content);      
-            
-            
+
+
 
             //Player
             player = new Player(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "ApeMonster", Content);
@@ -101,8 +115,8 @@ namespace Prototype3dXNA
             //Creatures
 
             //Collectables
-            Collectable Vase01= new Collectable(new Vector3(2, 1, 0), new Vector3(0, 0, 0), "Vase", Content);
-                
+            Collectable Vase01 = new Collectable(new Vector3(2, 1, 0), new Vector3(0, 0, 0), "Vase", Content);
+
             upperWorld.addWall(testWall01);
             upperWorld.addWall(testWall02);
             upperWorld.addWall(testWall03);
@@ -147,13 +161,19 @@ namespace Prototype3dXNA
 
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), graphics.GraphicsDevice.Viewport.AspectRatio, .1f, 1000f);
 
-            
+
 
             // TODO: use this.Content to load your game content here
+
+            background = Content.Load<Texture2D>("Monitor");
+            white = Content.Load<Texture2D>("WhitePoint");
+            endScreen = Content.Load<Texture2D>("EndScreen");
+            font1 = Content.Load<SpriteFont>("Score");
+
             upperWorld.LoadContent();
             player.LoadContent();
 
-            
+
         }
 
         /// <summary>
@@ -181,18 +201,67 @@ namespace Prototype3dXNA
 
             //world = Matrix.CreateTranslation(position);
 
-            // KEYBOARD INPUTS ********************************
-            UpdateInput(1);
-            //END KEYBOARD INPUTS ****************************
 
-            //Collision
-            if(upperWorld.updateCollisionCollectables(player) == true)
+            if (gamestate == 1)
             {
-                points += 1;
-                Console.WriteLine("Points: " + points);
+                this.IsMouseVisible = true;
+                MouseState newState2 = Mouse.GetState();
+                xPos = newState2.X;
+                yPos = newState2.Y;
+
+                if (newState2.LeftButton == ButtonState.Pressed && oldState2.LeftButton == ButtonState.Released)
+                {
+                    if (xPos >= 226 && yPos >= 232 && xPos <= 532 && yPos <= 305)
+                        gamestate++;
+
+                    if (xPos >= 226 && yPos >= 348 && xPos <= 532 && yPos <= 421)
+                    {
+                        this.Exit();
+                    }
+
+                }
+
+                oldState2 = newState2; // this reassigns the old state so that it is ready for next time
+
+                /*
+                KeyboardState newState1 = Keyboard.GetState();  // get the newest state
+
+                // handle the input
+                if (oldState1.IsKeyUp(Keys.Left) && newState1.IsKeyDown(Keys.Left))
+                {
+                    gamestate++;
+                }
+
+                oldState1 = newState1;  // set the new state as the old state for next time
+                 */
             }
 
-            view = Matrix.CreateLookAt(Vector3.Add(player.getPosition(),new Vector3(5,5,0)), player.getPosition(), new Vector3(0, 1, 0));
+            if (gamestate == 2)
+            {
+                this.IsMouseVisible = false;
+                // KEYBOARD INPUTS ********************************
+                UpdateInput(1);
+                //END KEYBOARD INPUTS ****************************
+
+                //Collision
+                if (upperWorld.updateCollisionCollectables(player) == true)
+                {
+                    points += 1;
+                    Console.WriteLine("Points: " + points);
+                }
+
+                view = Matrix.CreateLookAt(Vector3.Add(player.getPosition(), new Vector3(5, 5, 0)), player.getPosition(), new Vector3(0, 1, 0));
+
+                if (points == 1)
+                {
+                    gamestate++;
+                }
+            }
+
+            if (gamestate == 3)
+            {
+                whiteDepth++;
+            }
             base.Update(gameTime);
         }
 
@@ -203,9 +272,45 @@ namespace Prototype3dXNA
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            
-            upperWorld.Draw(world, view, projection);
-            player.Draw(world, view, projection);
+
+            if (gamestate == 1)
+            {
+                spriteBatch.Begin();
+
+                spriteBatch.Draw(background, new Rectangle(0, 0, 800, 480), Color.White);
+
+                spriteBatch.End();
+            }
+
+
+            if (gamestate == 2)
+            {
+                spriteBatch.Begin();
+                spriteBatch.DrawString(font1, "Score: 0", new Vector2(20, 10), Color.Black);
+                spriteBatch.End();
+
+                GraphicsDevice.DepthStencilState = new DepthStencilState() { DepthBufferEnable = true };
+                upperWorld.Draw(world, view, projection);
+                player.Draw(world, view, projection);
+            }
+
+            if (gamestate == 3)
+            {
+                GraphicsDevice.DepthStencilState = new DepthStencilState() { DepthBufferEnable = true };
+                upperWorld.Draw(world, view, projection);
+                player.Draw(world, view, projection);
+
+                spriteBatch.Begin();
+                spriteBatch.Draw(white, new Rectangle(0, 0, 800, whiteDepth), Color.White);
+                spriteBatch.DrawString(font1, "Score: 1", new Vector2(20, 10), Color.Black);
+                if (whiteDepth > 480)
+                    //endScreen
+                    spriteBatch.Draw(endScreen, new Rectangle(130, 100, 550, 300), Color.White);
+                spriteBatch.End();
+
+
+            }
+
             base.Draw(gameTime);
         }
 
@@ -279,6 +384,6 @@ namespace Prototype3dXNA
 
             // Update saved state.
             oldState = newState;
-        }    
+        }
     }
 }
