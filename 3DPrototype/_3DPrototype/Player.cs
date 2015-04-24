@@ -47,7 +47,7 @@ namespace _3DPrototype
         {
             model = content.Load<Model>(modelName);
         }
-
+        //getter
         public Vector3 getPosition()
         {
             return this.position;
@@ -56,6 +56,7 @@ namespace _3DPrototype
         {
             return this.orientation; ;
         }
+        //setter
         public void setPosition(Vector3 _position)
         {
             this.position = _position;
@@ -63,6 +64,24 @@ namespace _3DPrototype
         public void setOrientation(Vector3 _orientation)
         {
             this.orientation = _orientation;
+        }
+
+        //easier methos to move the player with the keys
+        public void moveLeft(int steps)
+        {
+            this.setPosition(Vector3.Add(position, new Vector3(0, 0, steps)));
+        }
+        public void moveRight(int steps)
+        {
+            this.setPosition(Vector3.Add(position, new Vector3(0, 0, -steps)));
+        }
+        public void moveBack(int steps)
+        {
+            this.setPosition(Vector3.Add(position, new Vector3(steps, 0, 0)));
+        }
+        public void moveForward(int steps)
+        {
+            this.setPosition(Vector3.Add(position, new Vector3(-steps,0,0)));
         }
     }
 }

@@ -17,6 +17,7 @@ namespace _3DPrototype
         ContentManager content;
         List<Wall> Walls = new List<Wall>();
         List<Ground> Grounds = new List<Ground>();
+        List<Collectable> Collectables = new List<Collectable>();
 
        public GameEnvironment(ContentManager _content, String _name, Vector3 _position, Vector3 _orientation)
         {
@@ -36,6 +37,10 @@ namespace _3DPrototype
             {
                 ground.Draw(world, view, projection);
             }
+            foreach (Collectable collectable in Collectables)
+            {
+                collectable.Draw(world, view, projection);
+            }
 
         }
             
@@ -48,6 +53,10 @@ namespace _3DPrototype
             foreach (Ground ground in Grounds)
             {
                 ground.LoadContent();
+            }
+            foreach (Collectable collectable in Collectables)
+            {
+                collectable.LoadContent();
             }
         }
 
@@ -72,6 +81,35 @@ namespace _3DPrototype
          public void addGround(Ground _ground)
          {
              this.Grounds.Add(_ground);
+         }
+
+         public void addCollectable(Collectable _collectable)
+         {
+             this.Collectables.Add(_collectable);
+         }
+
+         public bool updateCollisionCollectables(Player _player)
+         {
+             bool tempBool=false;
+             foreach (Collectable collectable in Collectables)
+             {
+                 float distance = Vector3.Distance(collectable.getPosition(), _player.getPosition());
+                 if(distance < 1.1)
+                 {
+                     collectable.setCatched(true);
+                 }
+                 else collectable.setCatched(false);
+             }
+             for(int i = 0; i < Collectables.Count; i++)
+             {
+                 if(Collectables.ElementAt(i).getIsCatched() == true)
+                 {
+                     Collectables.RemoveAt(i);
+                     tempBool = true;
+                     Console.WriteLine("Collectable Removed");
+                 }
+             }
+             return tempBool;
          }
     }
 }

@@ -20,7 +20,9 @@ namespace Prototype3dXNA
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         GameEnvironment upperWorld;
-
+        Player player;
+        KeyboardState oldState;
+        int points;
        
 
         /// <summary>
@@ -65,31 +67,63 @@ namespace Prototype3dXNA
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            //Points
+            points = 0;
+            //Keyboard
+            oldState = Keyboard.GetState();
+            //Environment
             upperWorld = new GameEnvironment (Content, "upperWorld", new Vector3(0, 0, 0), new Vector3(0, 0, 0));
-            //Wall testWall = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "cube", Content);
-            //Wall testWall2 = new Wall(new Vector3(2, 0, 0), new Vector3(0, 0, 0), "Wuerfel1Yellow", Content);
-
+            //Grounds
+            Ground testGround01 = new Ground(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "FloorPlate", Content);
+            Ground testGround02 = new Ground(new Vector3(2, 0, 0), new Vector3(0, 0, 0), "FloorPlate", Content);
+            Ground testGround03 = new Ground(new Vector3(0, 0, 2), new Vector3(0, 0, 0), "FloorPlate", Content);
+            Ground testGround04 = new Ground(new Vector3(-2, 0, 0), new Vector3(0, 0, 0), "FloorPlate", Content);
+            Ground testGround05 = new Ground(new Vector3(0, 0, -2), new Vector3(0, 0, 0), "FloorPlate", Content);
+            Ground testGround06 = new Ground(new Vector3(-4, 0, 0), new Vector3(0, 0, 0), "FloorPlate", Content);
+            Ground testGround07 = new Ground(new Vector3(0, 0, 4), new Vector3(0, 0, 0), "FloorPlate", Content);
+            Ground testGround08 = new Ground(new Vector3(0, 0, -4), new Vector3(0, 0, 0), "FloorPlate", Content);
+            Ground testGround09 = new Ground(new Vector3(4, 0, 0), new Vector3(0, 0, 0), "FloorPlate", Content);
+            Ground testGround10 = new Ground(new Vector3(-2, 0, 2), new Vector3(0, 0, 0), "FloorPlate", Content);
+            Ground testGround11 = new Ground(new Vector3(2, 0, 2), new Vector3(0, 0, 0), "FloorPlate", Content);
+            Ground testGround12 = new Ground(new Vector3(2, 0, -2), new Vector3(0, 0, 0), "FloorPlate", Content);
+            Ground testGround13 = new Ground(new Vector3(-2, 0, -2), new Vector3(0, 0, 0), "FloorPlate", Content);
+            //Walls           
+            Wall testWall01 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallLeft", Content);            
+            Wall testWall02 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallBack", Content);
+            Wall testWall03 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallRight", Content);
+            //Wall testWall04 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallFront", Content);      
             
-            Wall testWall = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "FloorPlate", Content);
-            Wall testWall2 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallLeft", Content);
-            Wall testWall3 = new Wall(new Vector3(2, 0, 0), new Vector3(0, 0, 0), "FloorPlate", Content);
-            Wall testWall4 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallBack", Content);
-            //Wall testWall5 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WandRechts1", Content);
-            Wall testWall5 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "WallRight", Content);
-            Wall testWall6 = new Wall(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "ApeMonster", Content);
-            Wall testWall7 = new Wall(new Vector3(0, 0, 2), new Vector3(0, 0, 0), "FloorPlate", Content);
-            Wall testWall8 = new Wall(new Vector3(0, 0, 4), new Vector3(0, 0, 0), "FloorPlate", Content);
-             
-
-            upperWorld.addWall(testWall);
-            upperWorld.addWall(testWall2);
-            upperWorld.addWall(testWall3);
-            upperWorld.addWall(testWall4);
-            upperWorld.addWall(testWall5);
-            upperWorld.addWall(testWall6);
-            upperWorld.addWall(testWall7);
-            upperWorld.addWall(testWall8);
             
+
+            //Player
+            player = new Player(new Vector3(0, 0, 0), new Vector3(0, 0, 0), "ApeMonster", Content);
+
+            //Creatures
+
+            //Collectables
+            Collectable Vase01= new Collectable(new Vector3(2, 1, 0), new Vector3(0, 0, 0), "Vase", Content);
+                
+            upperWorld.addWall(testWall01);
+            upperWorld.addWall(testWall02);
+            upperWorld.addWall(testWall03);
+            //upperWorld.addWall(testWall04);
+            upperWorld.addGround(testGround01);
+            upperWorld.addGround(testGround02);
+            upperWorld.addGround(testGround03);
+            upperWorld.addGround(testGround04);
+            upperWorld.addGround(testGround05);
+            upperWorld.addGround(testGround06);
+            upperWorld.addGround(testGround07);
+            upperWorld.addGround(testGround08);
+            upperWorld.addGround(testGround09);
+            upperWorld.addGround(testGround10);
+            upperWorld.addGround(testGround11);
+            upperWorld.addGround(testGround12);
+            upperWorld.addGround(testGround13);
+            upperWorld.addCollectable(Vase01);
+
+
+
             Ground testGround = new Ground(new Vector3(0, 0, 4), new Vector3(0, 0, 0), "FloorPlate", Content);
             //upperWorld.addGround(3, 4, "FloorPlate");
             //upperWorld.addGround(testGround);
@@ -108,16 +142,17 @@ namespace Prototype3dXNA
             //model = Content.Load<Model>("cube");
             //model = Content.Load<Model>("Pfeil1");
 
-
             //view = Matrix.CreateLookAt(new Vector3(10, 10, 10), Vector3.Zero, Vector3.Up);
             view = Matrix.CreateLookAt(new Vector3(8, 25, 4), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
 
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), graphics.GraphicsDevice.Viewport.AspectRatio, .1f, 1000f);
-            //position = new Vector3(0, 0, 0);
+
             
 
             // TODO: use this.Content to load your game content here
             upperWorld.LoadContent();
+            player.LoadContent();
+
             
         }
 
@@ -143,18 +178,21 @@ namespace Prototype3dXNA
                 this.Exit();
 
             // TODO: Add your update logic here
-            /*
-            position += new Vector3(0, 0.01f, 0);
-            
-            */
-            //world = Matrix.CreateTranslation(position);
-            // KEYBOARD INPUTS ********************************
-            
 
+            //world = Matrix.CreateTranslation(position);
+
+            // KEYBOARD INPUTS ********************************
+            UpdateInput(1);
             //END KEYBOARD INPUTS ****************************
 
-            //position += new Vector3(0, 0.01f, 0);
-           // world = Matrix.CreateTranslation(position);
+            //Collision
+            if(upperWorld.updateCollisionCollectables(player) == true)
+            {
+                points += 1;
+                Console.WriteLine("Points: " + points);
+            }
+
+            view = Matrix.CreateLookAt(Vector3.Add(player.getPosition(),new Vector3(5,5,0)), player.getPosition(), new Vector3(0, 1, 0));
             base.Update(gameTime);
         }
 
@@ -165,9 +203,9 @@ namespace Prototype3dXNA
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
             
             upperWorld.Draw(world, view, projection);
+            player.Draw(world, view, projection);
             base.Draw(gameTime);
         }
 
@@ -179,7 +217,68 @@ namespace Prototype3dXNA
         /// <param name="world">The transformation matrix to get the model in the right place in the world.</param>
         /// <param name="view">The transformation matrix to get the model in the right place, relative to the camera.</param>
         /// <param name="projection">The transformation matrix to project the model's points onto the screen correctly.</param>
-        
-            
+
+
+        // helper functions
+        // keyboardHandling Steps describes how fast the player will move with one Keyhit (2 for a gridspace of 1)
+        private void UpdateInput(int steps)
+        {
+            KeyboardState newState = Keyboard.GetState();
+            if (newState.IsKeyDown(Keys.W))
+            {
+                // If not down last update, key has just been pressed.
+                if (!oldState.IsKeyDown(Keys.W))
+                {
+                    player.moveForward(steps);
+                }
+            }
+            else if (oldState.IsKeyDown(Keys.W))
+            {
+                // Key was down last update, but not down now, so
+                // it has just been released.
+            }
+            else if (newState.IsKeyDown(Keys.A))
+            {
+                // If not down last update, key has just been pressed.
+                if (!oldState.IsKeyDown(Keys.A))
+                {
+                    player.moveLeft(steps);
+                }
+            }
+            else if (oldState.IsKeyDown(Keys.A))
+            {
+                // Key was down last update, but not down now, so
+                // it has just been released.
+            }
+            if (newState.IsKeyDown(Keys.S))
+            {
+                // If not down last update, key has just been pressed.
+                if (!oldState.IsKeyDown(Keys.S))
+                {
+                    player.moveBack(steps);
+                }
+            }
+            else if (oldState.IsKeyDown(Keys.S))
+            {
+                // Key was down last update, but not down now, so
+                // it has just been released.
+            }
+            if (newState.IsKeyDown(Keys.D))
+            {
+                // If not down last update, key has just been pressed.
+                if (!oldState.IsKeyDown(Keys.D))
+                {
+                    player.moveRight(steps);
+                }
+            }
+            else if (oldState.IsKeyDown(Keys.D))
+            {
+                // Key was down last update, but not down now, so
+                // it has just been released.
+            }
+
+            // Update saved state.
+            oldState = newState;
+        }    
     }
 }
